@@ -1,6 +1,9 @@
+from calendar import TextCalendar
+from curses.textpad import Textbox
 from tkinter import *
+import tkinter as tk
 import sqlite3
-from tkinter import messagebox
+from os import system, name
 
 
 with sqlite3.connect("informational.db") as db:
@@ -12,12 +15,22 @@ root = Tk()
 root.geometry("1250x700")
 root.title("niezapominajek")
 
+
+def clear():
+    # windows
+    if name=='nt':
+        _=system('cls')
+
+        # linux & mac
+    else:
+        _=system('clear')
+
 def fetch_data():
     pobierz = db.cursor()
     pobierz.execute("SELECT * FROM baza_d")
     dane = pobierz.fetchall()
     for dana in dane:
-        print(dana)
+        print(dana,[0])
         tekst.insert(INSERT,dana)
 
 
@@ -28,13 +41,12 @@ def am():
     for dana in dane:
         print(dana, [0])
         tekst.insert(INSERT,dana)
+        clear()
         
-        
-
 
 def add_new_content():
     newTitle = title.get()
-    newContent = content.get()
+    newContent = content.get("1.0",END)
 
 
     cursor.execute("SELECT COUNT(*) from baza_d WHERE title = '"+ newTitle + "' ")
@@ -46,7 +58,7 @@ def add_new_content():
         error["text"] = "Added New User"
         cursor.execute("INSERT INTO baza_d(title, content)VALUES(?,?)",(newTitle, newContent))
         db.commit()
-        fetch_data()
+        fetch_data([0])
 
 
 #
@@ -67,7 +79,7 @@ label2 = Label(text = "Enter Content:")
 label2.place(x = 30, y = 120)
 label2.config(bg = 'lightgreen', padx=0)
 #
-content = Entry(text = "Wpisz:")
+content = Text(root)
 content.place(x=30, y=170, width=200, height=375)
 content.config(bg = 'orange')
 # 
@@ -80,8 +92,12 @@ button1.place(x=110, y=650, width=75, height=35)
 button1.config(bg='#a17e41')
 #
 button2 = Button(text = "+", command = am)
-button2.place(x=30, y=10, width=75, height=35)
+button2.place(x=30, y=600, width=75, height=35)
 button2.config(bg='#a17e41')
+#
+button3 = Button(text = "Clear", command = clear)
+button3.place(x=110, y=600, width=75, height=35)
+button3.config(bg='#a17e41')
 
 tekst = Text()
 tekst.place(x=300, y=30, width=850, height=570)
