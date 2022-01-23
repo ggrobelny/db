@@ -25,7 +25,7 @@ def add_new_user():
         db.commit()
 
 window = Tk()
-window.geometry("650x240")
+window.geometry("1250x700")
 #
 error = Message(text="", width=160)
 error.place(x = 30, y = 10)
@@ -37,17 +37,19 @@ label1.place(x = 30, y = 50)
 label1.config(bg = 'lightgreen', padx=0)
 #
 username = Entry(text = "")
-username.place(x=150, y=50, width=200, height=25)
+username.place(x=30, y=75, width=200, height=25)
+username.config(bg = 'lightgreen')
 #
 label2 = Label(text = "Enter Password:")
-label2.place(x = 30, y = 100)
+label2.place(x = 30, y = 110)
 label2.config(bg = 'lightgreen', padx=0)
 #
 password = Entry(text = "")
-password.place(x=150, y=100, width=200, height=25)
+password.place(x=30, y=160, width=200, height=75)
+password.config(bg = 'orange')
 # 
 button = Button(text = "Add", command = add_new_user)
-button.place(x=150, y=160, width=75, height=35)
+button.place(x=30, y=250, width=75, height=35)
 
 
 window.mainloop()
