@@ -1,9 +1,8 @@
-from calendar import TextCalendar
-from curses.textpad import Textbox
 from tkinter import *
 import tkinter as tk
 import sqlite3
 from os import system, name
+from unittest import result
 
 
 with sqlite3.connect("informational.db") as db:
@@ -11,9 +10,12 @@ with sqlite3.connect("informational.db") as db:
     
 cursor.execute(""" CREATE TABLE IF NOT EXISTS baza_d(id integer PRIMARY KEY AUTOINCREMENT, title text NOT NULL, content text NOT NULL); """)
 
+
 root = Tk()
 root.geometry("1250x700")
-root.title("niezapominajek")
+root.title("Pamietnik")
+root.tk.call('wm','iconphoto',root._w, tk.PhotoImage(file='ichtis-no-bg.png'))
+var = StringVar(root)
 
 
 def clear():
@@ -29,7 +31,7 @@ def clear():
 
 def fetch_data():
     pobierz = db.cursor()
-    pobierz.execute("SELECT content FROM baza_d ORDER BY id DESC LIMIT 1")
+    pobierz.execute("SELECT title,content FROM baza_d ORDER BY id DESC LIMIT 1")
     dane = pobierz.fetchone()
     for dana in dane:
         print(dana,[0])
@@ -61,8 +63,21 @@ def add_new_content():
         error["text"] = "Added New Information"
         cursor.execute("INSERT INTO baza_d(title, content)VALUES(?,?)",(newTitle, newContent))
         db.commit()
-        fetch_data([0])
-
+        
+        content.delete()
+#
+def search():
+    try:
+        conn = sqlite3.connect('informational.db')
+        cur=conn.cursor()
+        sql="SELECT content FROM baza_d WHERE title='%s"%title.get
+        cur.execute(sql)
+        result=cur.fetchone()
+        content.set(result[0])
+        conn.close()
+    except:
+        print('success')
+            
 
 #
 error = Message(text="", width=160)
@@ -82,8 +97,8 @@ etykieta2 = Label(text = "Enter Content:")
 etykieta2.place(x = 30, y = 120)
 etykieta2.config(bg = 'lightgreen', padx=0)
 #
-content = Text(root)
-content.place(x=30, y=170, width=200, height=375)
+content = Text()
+content.place(x=30, y=170, width=200, height=275)
 content.config(bg = 'orange')
 # 
 button = Button(text = "Add", command = add_new_content)
@@ -101,9 +116,19 @@ button2.config(bg='#a17e41')
 button3 = Button(text = "Clear", command = clear)
 button3.place(x=110, y=600, width=75, height=35)
 button3.config(bg='#a17e41')
-
+#
 tekst = Text()
-tekst.place(x=300, y=30, width=850, height=570)
+tekst.place(x=300, y=75, width=850, height=570)
+#
+search = Entry()
+search.place(x=550, y=25, width=200, height=35)
+search.config(bg = 'lightgreen')
+#
+btn4 = Button(text='Search', command=search)
+btn4.place(x=190, y=600, width=75, height=35)
+btn4.config(bg='#a17e41')
+#
 
-
+###
+###
 root.mainloop()
