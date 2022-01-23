@@ -60,8 +60,13 @@ def add_new_content():
     if int(result[0]) > 0:
         error["text"] = "Error: Title already exists"
     else:
+<<<<<<< HEAD
         error["text"] = "Added New Information"
         cursor.execute("INSERT INTO baza_d(title, content)VALUES(?,?)",(newTitle, newContent))
+=======
+        error["text"] = "Added New User"
+        cursor.execute("INSERT INTO users(username, password)VALUES(?,?)",(newUsername))
+>>>>>>> 3a016964b98230ecc63fa9dffcdb77850ac28679
         db.commit()
         
         content.delete()
@@ -85,14 +90,21 @@ error.place(x = 30, y = 10)
 #
 #
 
+<<<<<<< HEAD
 etykieta1 = Label(text = "Enter Title:")
 etykieta1.place(x = 30, y = 60)
 etykieta1.config(bg = 'lightgreen', padx=0)
+=======
+label1 = Label(text = "Title:")
+label1.place(x = 30, y = 50)
+label1.config(bg = 'lightgreen', padx=0)
+>>>>>>> 3a016964b98230ecc63fa9dffcdb77850ac28679
 #
 title = Entry(text = "")
 title.place(x=30, y=85, width=200, height=25)
 title.config(bg = 'lightgreen')
 #
+<<<<<<< HEAD
 etykieta2 = Label(text = "Enter Content:")
 etykieta2.place(x = 30, y = 120)
 etykieta2.config(bg = 'lightgreen', padx=0)
@@ -100,6 +112,14 @@ etykieta2.config(bg = 'lightgreen', padx=0)
 content = Text()
 content.place(x=30, y=170, width=200, height=275)
 content.config(bg = 'orange')
+=======
+label2 = Label(text = "Content:")
+label2.place(x = 30, y = 100)
+label2.config(bg = 'lightgreen', padx=0)
+#
+password = Entry(text = "")
+password.place(x=150, y=100, width=200, height=50)
+>>>>>>> 3a016964b98230ecc63fa9dffcdb77850ac28679
 # 
 button = Button(text = "Add", command = add_new_content)
 button.place(x=30, y=650, width=75, height=35)
