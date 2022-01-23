@@ -24,13 +24,16 @@ def clear():
         # linux & mac
     else:
         _=system('clear')
+        tekst.delete("1.0",END)
+
 
 def fetch_data():
     pobierz = db.cursor()
-    pobierz.execute("SELECT * FROM baza_d")
-    dane = pobierz.fetchall()
+    pobierz.execute("SELECT content FROM baza_d ORDER BY id DESC LIMIT 1")
+    dane = pobierz.fetchone()
     for dana in dane:
         print(dana,[0])
+        tekst.delete("1.0",END)
         tekst.insert(INSERT,dana)
 
 
@@ -40,8 +43,8 @@ def am():
     dane = pobierz.fetchone()
     for dana in dane:
         print(dana, [0])
+        tekst.delete("1.0",END)
         tekst.insert(INSERT,dana)
-        clear()
         
 
 def add_new_content():
@@ -55,7 +58,7 @@ def add_new_content():
     if int(result[0]) > 0:
         error["text"] = "Error: Title already exists"
     else:
-        error["text"] = "Added New User"
+        error["text"] = "Added New Information"
         cursor.execute("INSERT INTO baza_d(title, content)VALUES(?,?)",(newTitle, newContent))
         db.commit()
         fetch_data([0])
@@ -67,17 +70,17 @@ error.place(x = 30, y = 10)
 #
 #
 
-label1 = Label(text = "Enter Title:")
-label1.place(x = 30, y = 60)
-label1.config(bg = 'lightgreen', padx=0)
+etykieta1 = Label(text = "Enter Title:")
+etykieta1.place(x = 30, y = 60)
+etykieta1.config(bg = 'lightgreen', padx=0)
 #
 title = Entry(text = "")
 title.place(x=30, y=85, width=200, height=25)
 title.config(bg = 'lightgreen')
 #
-label2 = Label(text = "Enter Content:")
-label2.place(x = 30, y = 120)
-label2.config(bg = 'lightgreen', padx=0)
+etykieta2 = Label(text = "Enter Content:")
+etykieta2.place(x = 30, y = 120)
+etykieta2.config(bg = 'lightgreen', padx=0)
 #
 content = Text(root)
 content.place(x=30, y=170, width=200, height=375)
@@ -87,7 +90,7 @@ button = Button(text = "Add", command = add_new_content)
 button.place(x=30, y=650, width=75, height=35)
 button.config(bg='#a17e41')
 #
-button1 = Button(text = "Fetch", command = fetch_data)
+button1 = Button(text = "Last ID", command = fetch_data)
 button1.place(x=110, y=650, width=75, height=35)
 button1.config(bg='#a17e41')
 #
