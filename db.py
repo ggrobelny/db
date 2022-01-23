@@ -18,6 +18,7 @@ def fetch_data():
     dane = ciagnij.fetchall()
     for dana in dane:
         print(dana)
+        tekst.insert(INSERT,dana)
         
         
 
@@ -36,6 +37,7 @@ def add_new_content():
         error["text"] = "Added New User"
         cursor.execute("INSERT INTO baza_d(title, content)VALUES(?,?)",(newTitle, newContent))
         db.commit()
+        fetch_data()
 
 
 #
@@ -71,5 +73,5 @@ button1.config(bg='#a17e41')
 tekst = Text()
 tekst.place(x=300, y=30, width=850, height=570)
 
-fetch_data()
+
 root.mainloop()
