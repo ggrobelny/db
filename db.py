@@ -78,8 +78,11 @@ def add_new_content():
     if int(result[0]) > 0:
         error["text"] = "Error: Title already exists"
     else:
+
         error["text"] = "Added New Information"
         cursor.execute("INSERT INTO baza_d(title, content)VALUES(?,?)",(newTitle, newContent))
+
+
         db.commit()
         title.delete(0,END)
         content.delete(1.0,END)
@@ -133,14 +136,21 @@ button1 = Button(text = "Last ID", command = fetch_data)
 button1.place(x=110, y=650, width=75, height=35)
 button1.config(bg='#a17e41')
 #
+
 button2 = Button(text = "+", command = am)
 button2.place(x=30, y=600, width=75, height=35)
 button2.config(bg='#a17e41')
+
+label1 = Label(text = "Title:")
+label1.place(x = 30, y = 50)
+label1.config(bg = 'lightgreen', padx=0)
+
 #
 button3 = Button(text = "Clear", command = clear)
 button3.place(x=110, y=600, width=75, height=35)
 button3.config(bg='#a17e41')
 #
+
 tekst = Text()
 tekst.place(x=300, y=75, width=850, height=570)
         #
@@ -148,6 +158,14 @@ searchbar = Entry()
 searchbar.place(x=550, y=25, width=200, height=35)
 searchbar.config(bg = 'orange')
 #
+
+label2 = Label(text = "Content:")
+label2.place(x = 30, y = 100)
+label2.config(bg = 'lightgreen', padx=0)
+#
+password = Entry(text = "")
+password.place(x=150, y=100, width=200, height=50)
+
 # 
 #
 btn5 = Button(text='+', command=pn)
