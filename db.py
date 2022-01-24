@@ -27,6 +27,8 @@ def clear():
     else:
         _=system('clear')
         tekst.delete("1.0",END)
+        title.delete(0,END)
+        content.delete(1.0,END)
 
 
 def fetch_data():
@@ -73,8 +75,8 @@ def add_new_content():
         error["text"] = "Added New Information"
         cursor.execute("INSERT INTO baza_d(title, content)VALUES(?,?)",(newTitle, newContent))
         db.commit()
-        
-        content.delete()
+        title.delete(0,END)
+        content.delete(1.0,END)
 #
 def search():
     with sqlite3.connect("informational.db") as db:
@@ -104,7 +106,7 @@ etykieta2 = Label(text = "Enter Content:")
 etykieta2.place(x = 30, y = 120)
 etykieta2.config(bg = 'lightgreen', padx=0)
 #
-content = Text()
+content = Text(root)
 content.place(x=30, y=170, width=200, height=275)
 content.config(bg = 'orange')
 # 
