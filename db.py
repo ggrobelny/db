@@ -13,7 +13,7 @@ cursor.execute(""" CREATE TABLE IF NOT EXISTS baza_d(id integer PRIMARY KEY AUTO
 
 root = Tk()
 root.geometry("1250x700")
-root.title("Pamietnik")
+root.title("Pamiętnik")
 root.tk.call('wm','iconphoto',root._w, tk.PhotoImage(file='ichtis-no-bg.png'))
 var = StringVar(root)
 
@@ -49,6 +49,16 @@ def am():
         tekst.insert(INSERT,dana)
         
 
+def pn():
+    pobierz = db.cursor()
+    pobierz.execute("SELECT title,content FROM baza_d WHERE id=17")
+    dane = pobierz.fetchone()
+    for dana in dane:
+        print(dana, [0])
+        tekst.delete("1.0", END)
+        tekst.insert(INSERT,dana)
+        
+
 def add_new_content():
     newTitle = title.get()
     newContent = content.get("1.0",END)
@@ -67,16 +77,13 @@ def add_new_content():
         content.delete()
 #
 def search():
-    try:
-        conn = sqlite3.connect('informational.db')
-        cur=conn.cursor()
-        sql="SELECT content FROM baza_d WHERE title='%s"%title.get
-        cur.execute(sql)
-        result=cur.fetchone()
-        content.set(result[0])
-        conn.close()
-    except:
-        print('success')
+    with sqlite3.connect("informational.db") as db:
+        cursor=db.cursor()
+
+        cursor.execute("SELECT content FROM baza_d WHERE title=?", (content,))
+        dataFound = cursor.fetchone()
+        return dataFound
+
             
 
 #
@@ -128,7 +135,9 @@ btn4 = Button(text='Search', command=search)
 btn4.place(x=190, y=600, width=75, height=35)
 btn4.config(bg='#a17e41')
 #
-
+btn5 = Button(text='+', command=pn)
+btn5.place(x=190, y=650, width=75, height=35)
+btn5.config(bg='#a17e41')
 ###
 ###
 root.mainloop()
